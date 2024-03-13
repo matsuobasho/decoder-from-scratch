@@ -13,14 +13,14 @@ To focus only on programming the transformer architecture, I opted to use
 pre-trained tokenizers, an idea I stole from [Andrej Karpathy](https://github.com/karpathy/minbpe).
 
 ## Sequence structuring
-It took me some time to understand how to deal with stop words and end-of-sequence
-tokens.  Since I'm training on just one piece of text, I decided to break up
+Since I'm training on just one piece of text, I decided to break up
 the text into sliding window sequences of 40 tokens.  Since I discarded the last
 incomplete sequence, I didn't actually have any stop words.
 
-As for the EOS, when a company is training a new language model, they will of
-course have more than 1 document, and end-of-sequence tokens would be relevant.
-In my case, however, there is just 1 end of sequence, so ignoring it is fine.
+As for the EOS (end of sequence token) token, when someone trains a model in a
+commercial setting, they will of course have more than 1 document, and
+EOS tokens would be relevant.  In my case, however, there is just 1 large
+sequence, so ignoring them is fine.
 
 The implication is that for inference, we do not expect the model to generate
 a token for when the sequence should end.
@@ -40,7 +40,12 @@ to be 20 minutes of use per day).  So I finally switched to a NVidia Tesla T4 on
 AzureML, which cost me about $4.80 to train for 10 epochs.
 
 ## Inference
-The results on some starter sequences with greedy search were repetivie, so I
+I used an autoregressive approach for predicting on an input.  The decoder
+architecture is flexible to the number of tokens in the input sequence for
+prediction.  We just specify how many words we want to predict, add the predicted
+next word to the input sequence and predict again.
+
+The results on some starter sequences with greedy search were repetitive, so I
 also implemented a multinomial search strategy. This improved, but unfortunately
 the result is still incoherent.
 
