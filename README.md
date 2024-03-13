@@ -6,6 +6,8 @@ Code to build a decoder-only transformers model akin to OpenAI's GPT2 using
 just PyTorch.  My criteria for success was to be able to train the model on
 actual text and have it generate a set of phrases given an input sequence.
 
+I used the Jules Verne novel 'The Mysterious Island' for my training corpus.
+
 ## Tokenization
 To focus only on programming the transformer architecture, I opted to use
 pre-trained tokenizers, an idea I stole from [Andrej Karpathy](https://github.com/karpathy/minbpe).
